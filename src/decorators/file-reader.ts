@@ -34,6 +34,6 @@ class Example {
     public read: FileReaderFunction<string>;
 }
 
-(new Example).read().then(res => {
-    // res === <file contents>
-});
+// (new Example).read().then(res => {
+//     // res === <file contents>
+// });
