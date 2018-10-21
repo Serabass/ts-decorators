@@ -1,13 +1,13 @@
 import * as fs from 'fs-extra';
 
 export type FileReaderDecoratorOptions<R> = {
-    fileName?: '1.txt',
+    fileName?: string,
     resolve?: (buffer: Buffer, options: any) => R;
 };
 
 export function fileReader<R>(options: FileReaderDecoratorOptions<R>) {
     if (!options.resolve) {
-        options.resolve = <any>((buffer: R, options: any) => {
+        options.resolve = <any>((buffer: Buffer, options: any) => {
             return buffer;
         });
     }
@@ -22,18 +22,21 @@ export function fileReader<R>(options: FileReaderDecoratorOptions<R>) {
     };
 }
 
+export function readAsUtf8String(buffer: Buffer, options: any): string {
+    return buffer.toString('utf-8');
+}
+
 export type FileReaderFunction<T> = (fileName?: string) => Promise<T>;
 
 class Example {
     @fileReader<string>({
         fileName: '1.txt',
-        resolve: (buffer: Buffer, options: any) => {
-            return buffer.toString();
-        }
+        resolve: readAsUtf8String
     })
     public read: FileReaderFunction<string>;
 }
 
-// (new Example).read().then(res => {
-//     // res === <file contents>
-// });
+(new Example).read().then(res => {
+    debugger;
+    // res === <file contents>
+});

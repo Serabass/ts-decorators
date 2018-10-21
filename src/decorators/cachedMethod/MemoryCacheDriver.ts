@@ -15,7 +15,8 @@ export class MemoryCacheDriver<T> extends CacheDriver<T> {
     async set(key: string, value: any, time: number): Promise<void> {
         let expireTime: number = Date.now() + time;
         this.data[key] = {
-            value, expireTime
+            value,
+            expireTime
         };
         return;
     }
